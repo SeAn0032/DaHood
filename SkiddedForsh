@@ -261,9 +261,11 @@ else
             --[[ Line: 0 ]] --[[ Name:  ]]
             for _, v85 in ipairs(
                 {
-                    "BUBU",
-                    "MUSIC",
-                    "KINGPIN",
+                    "XMAS2025",
+                    "HAPPYHOLIDAYS25",
+                    "HALLOWEEN25",
+                    "ADMINABUSE",
+                    "XMASEVE25",
                     "BRAINROT",
                     "LUXE",
                     "TURBO",
