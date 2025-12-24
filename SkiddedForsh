@@ -78,24 +78,6 @@ else
     local v24 = {}
     local v25 = 1
     local v26 = false
-    getgenv().killStrafe = false
-    local killPatterns = { "orbit", "random", "square", "zigzag" }
-    local killPatternIndex = 1
-    local killPatternNextSwitch = 0
-    local function isStompState(target)
-        if not target or not target.Character then return false end
-        local hum = target.Character:FindFirstChildOfClass("Humanoid")
-        local hrp = target.Character:FindFirstChild("HumanoidRootPart")
-        local myHRP = l_Players_3.LocalPlayer.Character
-            and l_Players_3.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-        if not hum or not hrp or not myHRP then return false end
-        local dist = (myHRP.Position - hrp.Position).Magnitude
-        if hum.Health <= 5 then return true end
-        if hum.PlatformStand then return true end
-        if dist < 7 then return true end
-        return false
-    end
-    local killAngle = math.random() * math.pi * 2
     local l_Players_1 = game:GetService("Players")
     local l_RunService_1 = game:GetService("RunService")
     local _ = game.Players.LocalPlayer
@@ -279,10 +261,9 @@ else
             --[[ Line: 0 ]] --[[ Name:  ]]
             for _, v85 in ipairs(
                 {
-                    "XMAS2025",
-                    "HAPPYHOLIDAYS25",
-                    "HALLOWEEN25",
-                    "ADMINABUSE",
+                    "BUBU",
+                    "MUSIC",
+                    "KINGPIN",
                     "BRAINROT",
                     "LUXE",
                     "TURBO",
@@ -398,10 +379,6 @@ else
                             local v113 = v111.DisplayName:lower()
                             if v112:find(v105, 1, true) or v113:find(v105, 1, true) then
                                 v17 = v111
-                                getgenv().killStrafe = true
-                                killAngle = math.random() * math.pi * 2
-                                killPatternIndex = 1
-                                killPatternNextSwitch = 0
                                 return
                             end
                         end
@@ -439,10 +416,6 @@ else
                             local v122 = v120.DisplayName:lower()
                             if v121:find(v114, 1, true) or v122:find(v114, 1, true) then
                                 v17 = v120
-                                getgenv().killStrafe = true
-                                killAngle = math.random() * math.pi * 2
-                                killPatternIndex = 1
-                                killPatternNextSwitch = 0
                                 return
                             end
                         end
@@ -480,10 +453,6 @@ else
                             local v131 = v129.DisplayName:lower()
                             if v130:find(v123, 1, true) or v131:find(v123, 1, true) then
                                 v17 = v129
-                                getgenv().killStrafe = true
-                                killAngle = math.random() * math.pi * 2
-                                killPatternIndex = 1
-                                killPatternNextSwitch = 0
                                 return
                             end
                         end
@@ -673,7 +642,6 @@ else
                     else
                         getgenv().enabled = false
                         getgenv().enabled1 = false
-                        getgenv().killStrafe = false
                         v24 = {}
                         v17 = nil
                         v23 = false
@@ -780,102 +748,6 @@ else
             end
         end
     )
-    task.spawn(function()
-    while true do
-        if getgenv().killStrafe
-        and v17
-        and l_Players_3.LocalPlayer.Character
-        and v17.Character
-        and not v20 and not v21 then
-
-            local myHRP =
-                l_Players_3.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-            local tgtHRP =
-                v17.Character:FindFirstChild("HumanoidRootPart")
-
-            if myHRP and tgtHRP then
-                local now = os.clock()
-
-                -- schimbare pattern la fiecare 1.2s
-                if now >= killPatternNextSwitch then
-                    killPatternIndex = killPatternIndex % #killPatterns + 1
-                    killPatternNextSwitch = now + 1.2
-                end
-
-                local pattern = killPatterns[killPatternIndex]
-                local offset
-
-                -- =========================
-                -- PATTERN-URI
-                -- =========================
-            local stompLike = isStompState(v17)
-            
-            if stompLike then
-                killAngle += 0.03
-                local r = 5
-                offset = Vector3.new(
-                    math.cos(killAngle) * r,
-                    -5,
-                    math.sin(killAngle) * r
-                )
-            else
-                if pattern == "orbit" then
-                    killAngle += 0.18
-                    local r = 14
-                    offset = Vector3.new(
-                        math.cos(killAngle) * r,
-                        -6,
-                        math.sin(killAngle) * r
-                    )
-
-                elseif pattern == "random" then
-                    local ang = math.random() * math.pi * 2
-                    local r = math.random(8, 20)
-                    offset = Vector3.new(
-                        math.cos(ang) * r,
-                        -6,
-                        math.sin(ang) * r
-                    )
-
-                elseif pattern == "square" then
-                    killAngle += 0.15
-                    local r = 16
-                    local p = (killAngle % (2 * math.pi)) / (2 * math.pi)
-
-                    local x, z
-                    if p < 0.25 then
-                        x = -r + (p / 0.25) * (2 * r)
-                        z = -r
-                    elseif p < 0.5 then
-                        x = r
-                        z = -r + ((p - 0.25) / 0.25) * (2 * r)
-                    elseif p < 0.75 then
-                        x = r - ((p - 0.5) / 0.25) * (2 * r)
-                        z = r
-                    else
-                        x = -r
-                        z = r - ((p - 0.75) / 0.25) * (2 * r)
-                    end
-
-                    offset = Vector3.new(x, -6, z)
-
-                elseif pattern == "zigzag" then
-                    killAngle += 0.25
-                    local r = 12 + math.sin(killAngle * 3) * 6
-                    offset = Vector3.new(
-                        math.cos(killAngle) * r,
-                        -6,
-                        math.sin(killAngle) * r
-                    )
-                end
-
-                myHRP.CFrame =
-                    CFrame.new(tgtHRP.Position + offset, tgtHRP.Position)
-            end
-        end
-        task.wait(0.03)
-    end
-end)
     local _ = game:GetService("Players")
     local l_LocalPlayer_16 = game.Players.LocalPlayer
     local l_LocalPlayer_17 = game.Players.LocalPlayer
@@ -1103,7 +975,6 @@ end)
                                     if v255 == ".aura on" then
                                         v17 = nil
                                         v87 = false
-                                        getgenv().killStrafe = false
                                         getgenv().enabled = true
                                         startFollowingTarget(Owner)
                                         v247 = true
