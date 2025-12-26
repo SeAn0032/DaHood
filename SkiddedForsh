@@ -5,7 +5,6 @@ else
 	marker = Instance.new("BoolValue");
 	marker.Name = "Executed";
 	marker.Parent = game:GetService("ServerStorage");
-local EncodingService = game:GetService("EncodingService")
 	local l_Players_0 = game:GetService("Players");
 	local l_LocalPlayer_0 = l_Players_0.LocalPlayer;
 	local _ = game:GetService("UserInputService");
@@ -155,7 +154,6 @@ local EncodingService = game:GetService("EncodingService")
 	local v59 = Vector3.new(20, 10, 20);
 	local l_Position_0 = l_Part_0.Position;
 	local v61 = 20;
-	local abuseBusy = false
 	function getRandomPositionInZone()
 		local v62 = v59 / 2;
 		local v63 = (l_Position_0.X + (math.random() * v59.X)) - v62.X;
@@ -218,7 +216,7 @@ local EncodingService = game:GetService("EncodingService")
 		l_ReplicatedStorage_0:WaitForChild("MainEvent"):FireServer(unpack(v83));
 	end
 	coroutine.wrap(function()
-		for _, v85 in ipairs({"HAPPYHOLIDAYS25","HALLOWEEN25","ADMINABUSE","BRAINROT","LUXE","TURBO","OCTOBER25","XMASEVE25"}) do
+		for _, v85 in ipairs({"BUBU","MUSIC","KINGPIN","BRAINROT","LUXE","TURBO","OCTOBER25"}) do
 			redeemCode(v85);
 			task.wait(6);
 		end
@@ -236,57 +234,6 @@ local EncodingService = game:GetService("EncodingService")
 			task.wait();
 		end
 	end);
-	task.spawn(function()
-        while true do
-            task.wait(0.2)
-
-            if not AbuseProtection or abuseBusy then
-                continue
-            end
-
-            local lp = game.Players.LocalPlayer
-            local char = lp.Character
-            if not char then continue end
-
-            -- NU porni dacă încă e ForceField
-            if char:FindFirstChildOfClass("ForceField") then
-                continue
-            end
-
-            abuseBusy = true
-
-            task.spawn(function()
-
-				task.wait(3)
-
-				if not AbuseProtection then
-                    abuseBusy = false
-                    return
-                end
-
-                local c = lp.Character
-                if not c then abuseBusy = false return end
-
-                local h = c:FindFirstChildOfClass("Humanoid")
-                if not h then abuseBusy = false return end
-
-                -- VOID
-                v87 = true
-                v22 = false
-                task.wait(0.1)
-
-                -- RESET
-                h.Health = 0
-
-                abuseBusy = false
-            end)
-        end
-    end)
-
-   if char:FindFirstChild("ForceField") then
-                continue
-            end
-		
 	l_LocalPlayer_6.CharacterAdded:Connect(function(v91)
 		l_HumanoidRootPart_2 = v91:WaitForChild("HumanoidRootPart");
 	end);
